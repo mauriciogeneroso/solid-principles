@@ -1,4 +1,4 @@
-package solid.singleresponsability.before;
+package solid.singleresponsability.after;
 
 import solid.singleresponsability.Item;
 
@@ -24,30 +24,6 @@ public class Order {
     }
 
     public boolean deleteItem(Item item) {
-        return true;
-    }
-
-    public void printOrder() {
-
-    }
-
-    public void showOrder() {
-
-    }
-
-    public boolean load() {
-        return true;
-    }
-
-    public boolean save() {
-        return true;
-    }
-
-    public boolean update() {
-        return true;
-    }
-
-    public boolean delete() {
         return true;
     }
 }

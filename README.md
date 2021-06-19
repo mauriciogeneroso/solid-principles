@@ -1,5 +1,5 @@
 <p align="center">
-      <img height=85 src="images/solid-image.png">
+    <img height=85 src="images/solid-image.png">
     <br>This repository contains examples for SOLID principles
 </p>
 
@@ -36,7 +36,29 @@ How does this principle help us to build better software? Let's see a few of its
 
 Imagine the diagram bellow and try to identify the problems:
 
-<img src="diagrams/srp-before.png" />
+<p align="center">
+    <img src="diagrams/srp-before.png" />
+</p>
+
+```java
+class Order {
+
+    public BigDecimal calculateTotalSum() { /* code */; }
+    public List<Item> getItems() { /* code */; }
+    public long getItemsCount() { /* code */; }
+    public boolean addItem(Item item) { /* code */; }
+    public boolean deleteItem(Item item) { /* code */; }
+
+    public void printOrder() { /* code */; }
+    public void showOrder() { /* code */; }
+
+    public void load() { /* code */; }
+    public void save() { /* code */; }
+    public void update() { /* code */; }
+    public void delete() { /* code */; }
+}
+
+```
 
 In this example, the class has 3 different responsibilities: store the order information, print data and manage the data/persist.
 
@@ -44,3 +66,38 @@ The example viole single-responsibility and causes some problems:
 * Low cohesion: a class shouldn't have responsibility that is not its own.
 * High couple: more responsibility, cause a lot of dependencies, making the program difficult to change.
 * Testing: Difficult for testing.
+
+Applying the SRP, we'll have this solution:
+
+<p align="center">
+    <img src="diagrams/srp-after.png" />
+</p>
+
+```java
+class Order {
+
+    public BigDecimal calculateTotalSum() { /* code */; }
+    public List<Item> getItems() { /* code */; }
+    public long getItemsCount() { /* code */; }
+    public void addItem(Item item) { /* code */; }
+    public boolean deleteItem(Item item) { /* code */; }
+}
+
+class OrderRepository {
+    
+    public Order load(UUID id) { /* code */; }
+    public boolean save(Order order) { /* code */; }
+    public boolean update(Order order) { /* code */; }
+    public boolean delete(Order order) { /* code */; }
+}
+
+class OrderViewer {
+    public void printOrder(Order order) { /* code */; }
+    public void showOrder(Order order) { /* code */; }
+}
+```
+
+Now we have 3 different classes to do each responsibility. This principle should be applied as well for methods,
+it means each method should have one responsibility.
+
+---
