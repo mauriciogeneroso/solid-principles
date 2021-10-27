@@ -6,17 +6,19 @@
 ---
 # What is SOLID?
 
-SOLID is an acronym for 5 important design principles when doing OOP (Object oriented Programming). The SOLID principles were first introduced by the famous Computer Scientist Robert J. Martin (or Uncle Bob) in his paper in 2000. But the SOLID acronym was introduced later by Michael Feathers.
+SOLID is an acronym for 5 important design principles when using Object oriented Programming (OOP). The SOLID principles were first introduced by the famous Computer Scientist Robert J. Martin (or Uncle Bob) in his [paper](https://fi.ort.edu.uy/innovaportal/file/2032/1/design_principles.pdf) in 2000. But the SOLID acronym was introduced later by Michael Feathers.
 
 SOLID are five patterns to encourage us to create more maintainable, understandable, and flexible software. Consequently, as our applications grow in size, we can reduce their complexity.
 
-Each letter from SOLID have a meaning:
+Each letter from SOLID has a meaning:
 
 <strong>S</strong> - Single-responsibility Principle </br>
 <strong>O</strong> - Open-closed Principle </br>
 <strong>L</strong> - Liskov Substitution Principle </br>
 <strong>I</strong> - Interface Segregation Principle </br>
 <strong>D</strong> - Dependency Inversion Principle </br>
+
+Below is describe each of them. 
 
 ---
 ## 1. SRP: Single-responsibility Principle
@@ -26,7 +28,7 @@ This principle means:
 A class should have one and only one reason to change, meaning that a class should have only one job.
 ```
 
-How does this principle help us to build better software? Let's see a few of its benefits:
+This principle provides the benefits:
 
 * <strong>Testing</strong> – A class with one responsibility will have far fewer test cases.
 * <strong>Lower coupling</strong> – Less functionality in a single class will have fewer dependencies.
@@ -34,7 +36,7 @@ How does this principle help us to build better software? Let's see a few of its
 
 #### Example:
 
-Imagine the diagram bellow and try to identify the problems:
+Imagine the diagram and the class bellow and try to identify the problems:
 
 <p align="center">
     <img src="diagrams/srp-before.png" />
@@ -101,3 +103,7 @@ Now we have 3 different classes to do each responsibility. This principle should
 it means each method should have one responsibility.
 
 ---
+
+###Sources:
+
+* https://www.baeldung.com/solid-principles
