@@ -8,7 +8,7 @@
 
 SOLID is an acronym for 5 important design principles when using Object oriented Programming (OOP). The SOLID principles were first introduced by the famous Computer Scientist Robert J. Martin (or Uncle Bob) in his [paper](https://fi.ort.edu.uy/innovaportal/file/2032/1/design_principles.pdf) in 2000. But the SOLID acronym was introduced later by Michael Feathers.
 
-SOLID are five patterns to encourage us to create more maintainable, understandable, and flexible software. Consequently, as our applications grow in size, we can reduce their complexity.
+SOLID are five patterns to encourage us to create more maintainable, understandable, and flexible software. Consequently, it helps programmers to write more clean code and as our applications grow in size, we can reduce their complexity. 
 
 Each letter from SOLID has a meaning:
 
@@ -25,14 +25,12 @@ Below is describe each of them.
 
 This principle means:
 ```
-A class should have one and only one reason to change, meaning that a class should have only one job.
+A class should have a single responsibility
 ```
 
-This principle provides the benefits:
+This principle means that we should have only one responsibility in each class, well-written, well-separated, and definitely, with a ```single responsibility```.
 
-* **Testing** – A class with one responsibility will have far fewer test cases.
-* **Lower coupling** – Less functionality in a single class will have fewer dependencies.
-* **Organization** – Smaller, well-organized classes are easier to search than monolithic ones.
+This principle provides the benefits involving tests, lower coupling and code organisation. Image a big class that does everything and you need to test the behavior of the functionalities on this class, how mess can it be? and in the future when you change a small part of the code inside this class, how to know if everything will be working well after the change, it can even introduce dependent/shared code, that will be more complex to change, so if we use single responsability, we can tests only this responsability and ensure everything working well. When we have less functionality, we reduce dependences and unnecessary shared code. The organisation with smaller classes will be better and the code will be easier to read than the monilithic classes that do everything.
 
 #### Example:
 
@@ -99,8 +97,7 @@ class OrderViewer {
 }
 ```
 
-Now we have 3 different classes to do each responsibility. This principle should be applied as well for methods,
-it means each method should have one responsibility.
+Now we have 3 different classes to do each responsibility. We can test each responsability now, automatically when we are using this principle we are writting better code, clean and that will be easier to read.
 
 The SRP isn't applied only for classes, it can be applied for methods too. A method should not to do a lot of things, 
 its name should be clean and the method code should do only one thing, following the principle <strong>Single Responsibility</strong>.  
@@ -207,7 +204,7 @@ In the new version of the code, we have an interface `Employee`, and the payslip
 Open-Closed Principle is the base of the [Strategy](https://pt.wikipedia.org/wiki/Strategy) Design Pattern.
 
 ---
-###Sources:
+### Sources:
 
 * https://www.baeldung.com/solid-principles
 * https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictures-b34ce2f1e898
