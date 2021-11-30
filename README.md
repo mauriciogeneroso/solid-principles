@@ -97,13 +97,13 @@ class OrderViewer {
 }
 ```
 
-Now we have 3 different classes to do each responsibility. We can test each responsability now, automatically when we are using this principle we are writting better code, clean and that will be easier to read.
+Now we have 3 different classes to do each responsibility and we can test each responsability. Automatically when we are using this principle we are writting better code, clean and that will be easier to read.
 
 The SRP isn't applied only for classes, it can be applied for methods too. A method should not to do a lot of things, 
 its name should be clean and the method code should do only one thing, following the principle <strong>Single Responsibility</strong>.  
 
 ---
-## 2. Open-closed Principle
+## 2. OCP: Open-closed Principle
 
 This principle says:
 
@@ -200,8 +200,7 @@ In the new version of the code, we have an interface `Employee`, and the payslip
 
 `Now our class is closed for modifications, and open for extensions.`
 
-#### Extra:
-Open-Closed Principle is the base of the [Strategy](https://pt.wikipedia.org/wiki/Strategy) Design Pattern.
+Open-Closed Principle is the base of the [Strategy](https://en.wikipedia.org/wiki/Strategy_pattern) Design Pattern. According to the strategy pattern, we should use interface instead inherited, so it is compatible with the OCP.
 
 ---
 ### Sources:
