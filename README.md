@@ -203,8 +203,181 @@ In the new version of the code, we have an interface `Employee`, and the payslip
 Open-Closed Principle is the base of the [Strategy](https://en.wikipedia.org/wiki/Strategy_pattern) Design Pattern. According to the strategy pattern, we should use interface instead inherited, so it is compatible with the OCP.
 
 ---
+## 3. LSP: Liskov Substitution Principle
+
+This principle says:
+```
+If S is a subtype of T, then objects of type T in a program may be replaced with objects of type S without altering any of the desirable properties of that program.
+```
+
+Here we are using Inheritance where we have a Class and we create another Class from it, we classify these classes as parent class and child class, or superclass and subclass. The child class should be able to do everything that the parent class does. A parent class can have many child as the software needs them.
+
+When we look at this definition for the first time, it looks just a definition of OOP concept of polymorphism, but it's more, believe in it!
+
+This principle says about consistency between superclasses and subclasses, avoiding unexpected exception and wrong abstraction. It will make more sense when we go thought the example. 
+
+Let's assume the following diagram and example, where we have an account and two types of accounts that supports the operations `deposit` and `withdraw`. Also we have a BankingAppWithdrawalService that is used to call the withdraw operation.
+
+<p align="center">
+    <img src="diagrams/lsp-before.png" />
+</p>
+
+```java
+public interface Account {
+
+    void deposit(BigDecimal amount);
+
+    void withdraw(BigDecimal amount);
+}
+
+public class CurrentAccount implements Account {
+
+    @Override
+    public void deposit(BigDecimal amount) {
+        // implementation
+    }
+
+    @Override
+    public void withdraw(BigDecimal amount) {
+        // implementation
+    }
+}
+
+public class SavingAccount implements Account {
+
+    @Override
+    public void deposit(BigDecimal amount) {
+        // implementation
+    }
+
+    @Override
+    public void withdraw(BigDecimal amount) {
+        // implementation
+    }
+}
+
+public class BankingAppWithdrawalService {
+
+    private Account account;
+
+    public BankingAppWithdrawalService(Account account) {
+        this.account = account;
+    }
+
+    public void withdraw(BigDecimal amount) {
+        account.withdraw(amount);
+    }
+}
+```
+
+Now let's suggest that the bank wants to offer a high interest-earning fixed-term deposit account to its customers, so we can intruduce in our application the `FixedTermDepositAccount` that supports only `deposit` because of the bank offer. The first thing that comes to us is: `FixedTermDepositAccount is an Account`, and then we can just implement the Account interface, but in this scenario we are introduction a problem, Account supports deposit and withdraw operations and we need to implement the `withdraw` method. It is most common than you immagine to find code where this method is implemented and throws an exception for unsupported operation. Let's see our new diagram and the new class:
+
+<p align="center">
+    <img src="diagrams/lsp-before2.png" />
+</p>
+
+```java
+public class FixedTermDepositAccount implements Account {
+
+    @Override
+    public void deposit(BigDecimal amount) {
+        // implementation
+    }
+
+    @Override
+    public void withdraw(BigDecimal amount) {
+        throw new UnsupportedOperationException("Withdrawals are not supported by FixedTermDepositAccount!!");
+    }
+}
+```
+
+#### What is the problem here?
+
+`FixedTermDepositAccount` definetely is an `Account`, therefore, we cannot reliably substitute `FixedTermDepositAccount` for `Account` and keep the same behavior because even if `FixedTermDepositAccount` implements the method throwing an exception
+
+`FixedTermDepositAccount` has violated the Liskov Substitution Principle.
+
+#### How to apply LSP in this case?
+
+We should re-design the application to follow the LSP principle. One possible solution is Create a new `WithdrawableAccount` interface that supports the `withdraw` method. Let's take a look:
+
+<p align="center">
+    <img src="diagrams/lsp-after.png" />
+</p>
+
+```java
+interface Account {
+
+    void deposit(BigDecimal amount);
+}
+
+interface WithdrawableAccount extends Account {
+
+    void withdraw(BigDecimal amount);
+}
+
+class FixedTermDepositAccount implements Account {
+
+    @Override
+    public void deposit(BigDecimal amount) {
+        // implementation
+    }
+
+}
+
+class CurrentAccount implements WithdrawableAccount {
+
+    @Override
+    public void deposit(BigDecimal amount) {
+        // implementation
+    }
+
+    @Override
+    public void withdraw(BigDecimal amount) {
+        // implementation
+    }
+}
+
+class SavingAccount implements WithdrawableAccount {
+
+    @Override
+    public void deposit(BigDecimal amount) {
+        // implementation
+    }
+
+    @Override
+    public void withdraw(BigDecimal amount) {
+        // implementation
+    }
+}
+
+class BankingAppWithdrawalService {
+
+    private WithdrawableAccount account;
+
+    public BankingAppWithdrawalService(WithdrawableAccount account) {
+        this.account = account;
+    }
+
+    public void withdraw(BigDecimal amount) {
+        account.withdraw(amount);
+    }
+}
+
+```
+
+Now the `BankingAppWithdrawalService` only supports withdrawable accounts and `FixedTermDepositAccount` doesn't need to throws an unexpected exception as before.
+
+Tips:
+
+* When thinking in Inheritance, be careful using `is a` creating subclasses.
+* Some more examples: We can have a system with a class `Bird` and method `fly()`, but not every bird `flies`. We can have a interface `Transport` that supports moviments for all directions, straigh, back, right and left and a class `Car` implementing them, but when implementation a `Train`, it goes only `straight` and `back`.
+* Breaking LSP, we introduce bugs and bad software design.
+
+---
 ### Sources:
 
 * https://www.baeldung.com/solid-principles
 * https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictures-b34ce2f1e898
 * https://medium.com/desenvolvendo-com-paixao/o-que-%C3%A9-solid-o-guia-completo-para-voc%C3%AA-entender-os-5-princ%C3%ADpios-da-poo-2b937b3fc530
+* https://www.baeldung.com/java-liskov-substitution-principle
