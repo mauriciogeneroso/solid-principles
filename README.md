@@ -383,6 +383,79 @@ Tips:
 * Breaking LSP, we introduce bugs and bad software design.
 
 ---
+## 4. ISP: Interface Segregation Principle
+
+This principle means:
+
+```
+Clients should not be forced to depend on methods that they do not use.
+```
+
+Applying this principle we avoid the force subclasses to implement unnecessary methods, or methods where the subclass has no ability to perform the action.
+
+Let`s consider in our example a zoo application, a zoo keeper and a bear. The zoo keeper will be able to wash the bear, feed the bear and make the bear a pet:
+
+<p align="center">
+    <img src="diagrams/isp-before.png" />
+</p>
+
+```java
+interface BeerKeeper {
+
+    void washTheBear();
+    void feedTheBear();
+    void petTheBear();
+}
+```
+
+But in the real world, usually a bear is not a pet, then we don't want to make a bear a pet, and using this class need to implement the method `petTheBear()` even if we don't need this action. It is breaking the LSP and ISP principle if we leave the method empty or throws an exception, one solution is re-design it.
+
+<p align="center">
+    <img src="diagrams/isp-after.png" />
+</p>
+
+```java
+interface Cleaner {
+    void wash();
+}
+
+interface Feeder {
+    void feed();
+}
+
+class BearCarer implements Cleaner, Feeder {
+
+    @Override
+    public void wash() {
+
+    }
+
+    @Override
+    public void feed() {
+
+    }
+}
+```
+
+Now we aren't forcing the bear carer to implement the method `petTheBear()`, and only the necessary methods are applying to be implemented.
+
+If in a specific scenario someone wants to make a bear a pet, we are able to implement only this functionality:
+
+```java
+interface Petter {
+    void petTheAnimal();
+}
+
+class BearPetter implements Petter {
+
+    @Override
+    public void petTheAnimal() {
+
+    }
+}
+```
+
+---
 ### Sources:
 
 * https://www.baeldung.com/solid-principles
