@@ -125,6 +125,10 @@ Imagine we have a payment system with different type of employees. Each employme
 
 So, in this example bellow, we have a FullTime employment type and a Contractor, and a class to calculate the payslip that requires the salary. What is the problem with this code?
 
+<p align="center">
+    <img src="diagrams/ocp-before.png" />
+</p>
+
 ```java
 class FullTimeContract {
     public BigDecimal salary() {
@@ -163,6 +167,10 @@ A class should be closed for modifications, and Uncle Bob teaches us how to fix 
 `Separate extensible behavior behind an interface, and flip the dependencies.`
 
 Let`s refactoring the code and see how it looks:
+
+<p align="center">
+    <img src="diagrams/ocp-after.png" />
+</p>
 
 ```java
 interface Employee {
