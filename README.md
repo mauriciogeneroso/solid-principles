@@ -455,6 +455,96 @@ class BearPetter implements Petter {
 ```
 
 ---
+## 5. DIP: Dependency Inversion Principle
+
+This priciple can be defined as:
+```
+High-level modules should not depend on low-level modules. Both should depend on the abstraction.
+```
+or 
+```
+Abstractions should not depend on details. Details should depend on abstractions.
+```
+
+Firstly, a high-level module (or class) is a class that execute actions, low-level module is a required module (or class) to execute the action, and abstraction are dependencies on these classes.
+
+This principle completes other SOLID principles to programming focuses on interfaces, so we can implement different versions of the interface and set different behaviours according the contract.
+
+Let's see the example. We have a `PasswordReminder` that requires a connection with the database: 
+```java
+class PasswordReminder {
+
+    private MySQLConnection connection;
+
+    public PasswordReminder() {
+        this.connection = new MySQLConnection();
+    }
+    
+    // implementation
+}
+```
+In this example we are using a specific database (MySQL) and introducing high coupling, if we need to use this class in other software, we require to have too `MySQLConnection` class in this other software because `PasswordReminder` depends of `MySQLConnection`.
+
+This is what this priciple fix. We should use abstraction and allow the software to use different implementation, in this example different databases.
+
+Don't confuse `Dependency Inversion` with `Depency Injection`, they aren't the same thing. `Depency Injection` is a software design where we have a container responsible to manage the class instances and inject them where they are required, `Dependency Inversion` is a principle.
+
+We can have `Depency Injection` and break the `Dependency Inversion` as below:
+```java
+class PasswordReminder {
+
+    private MySQLConnection connection;
+
+    public PasswordReminder(MySQLConnection connection) {
+        this.connection = connection;
+    }
+    
+    // implementation
+}
+```
+In this example we are using `Dependency Injection` if we have a container to inject the instance of `MySQLConnection`, but this is not `Depency Inversion` because it is breaking the principle: `Details should depend on abstractions.`
+
+Now, let's change our `MySQLConnection` to be an interface and use abstraction, so it gives us the possibility to use other type of databases:
+```java 
+interface DatabaseConnection {
+    
+    void connect();
+}
+
+class MySQLConnection implements DatabaseConnection {
+
+    @Override
+    public void connect() {
+        // implementation
+    }
+}
+
+class OracleConnection implements DatabaseConnection {
+
+    @Override
+    public void connect() {
+        // implementation
+    }
+}
+
+class PasswordReminder {
+
+    private DatabaseConnection connection;
+
+    public PasswordReminder(DatabaseConnection connection) {
+        this.connection = connection;
+    }
+
+    // implementation
+}
+```
+Now we are really applying `Dependency Inversion`, our class is depending from an interface/abstraction and we don't care which database the application is using, we can easily change from MySQL to Oracle and Oracle to MySQL or any other type of database without the necessity of changing the existing code.
+
+This principal helps:
+- Avoid high-coupling
+- Focus on interface, it matches with Open-Closed principle too, where we don't need to change the existing to insert new functionalities.
+
+---
 ### Sources:
 
 * https://www.baeldung.com/solid-principles
