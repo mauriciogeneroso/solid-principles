@@ -204,7 +204,7 @@ class Payslip {
 }
 ```
 
-In the new version of the code, we have an interface `Employee`, and the payslip manage an implementation of Employee, it gives us the flexibility to implement how much types of employee we want and we don't need to change the existing Payslip anymore.
+In the new version of the code, we have an interface `Employee`, and the payslip manages an implementation of Employee, it gives us the flexibility to implement how many types of employee we want and we don't need to change the existing Payslip anymore.
 
 `Now our class is closed for modifications, and open for extensions.`
 
@@ -278,7 +278,7 @@ public class BankingAppWithdrawalService {
 }
 ```
 
-Now let's suggest that the bank wants to offer a high interest-earning fixed-term deposit account to its customers, so we can intruduce in our application the `FixedTermDepositAccount` that supports only `deposit` because of the bank offer. The first thing that comes to us is: `FixedTermDepositAccount is an Account`, and then we can just implement the Account interface, but in this scenario we are introduction a problem, Account supports deposit and withdraw operations and we need to implement the `withdraw` method. It is most common than you immagine to find code where this method is implemented and throws an exception for unsupported operation. Let's see our new diagram and the new class:
+Now let's suggest that the bank wants to offer a high interest-earning fixed-term deposit account to its customers, so we can intruduce in our application the `FixedTermDepositAccount` that supports only `deposit` because of the bank offer. The first thing that comes to us is: `FixedTermDepositAccount is an Account`, and then we can just implement the Account interface, but in this scenario we are introduction a problem, Account supports deposit and withdraw operations and we don't need to implement the `withdraw` method. It is most common than you immagine to find code where this method is implemented and throws an exception for unsupported operation. Let's see our new diagram and the new class:
 
 <p align="center">
     <img src="diagrams/lsp-before2.png" />
@@ -301,9 +301,7 @@ public class FixedTermDepositAccount implements Account {
 
 #### What is the problem here?
 
-`FixedTermDepositAccount` definetely is an `Account`, therefore, we cannot reliably substitute `FixedTermDepositAccount` for `Account` and keep the same behavior because even if `FixedTermDepositAccount` implements the method throwing an exception
-
-`FixedTermDepositAccount` has violated the Liskov Substitution Principle.
+`FixedTermDepositAccount` definetely is an `Account`, therefore, we cannot reliably substitute `FixedTermDepositAccount` for `Account` and keep the same behavior because even if `FixedTermDepositAccount` implements the method throwing an exception, `FixedTermDepositAccount` has violated the Liskov Substitution Principle.
 
 #### How to apply LSP in this case?
 
@@ -374,13 +372,14 @@ class BankingAppWithdrawalService {
 
 ```
 
-Now the `BankingAppWithdrawalService` only supports withdrawable accounts and `FixedTermDepositAccount` doesn't need to throws an unexpected exception as before.
+Now the `BankingAppWithdrawalService` only supports withdrawable accounts and `FixedTermDepositAccount` doesn't need to throw an unexpected exception as before.
 
-Tips:
+Tips for apply LSP:
 
 * When thinking in Inheritance, be careful using `is a` creating subclasses.
 * Some more examples: We can have a system with a class `Bird` and method `fly()`, but not every bird `flies`. We can have a interface `Transport` that supports moviments for all directions, straigh, back, right and left and a class `Car` implementing them, but when implementation a `Train`, it goes only `straight` and `back`.
 * Breaking LSP, we introduce bugs and bad software design.
+* Using LSP and avoiding unnecessary method implementations, we ensure the class does exactly what is expected to do.
 
 ---
 ## 4. ISP: Interface Segregation Principle
@@ -408,7 +407,7 @@ interface BeerKeeper {
 }
 ```
 
-But in the real world, usually a bear is not a pet, then we don't want to make a bear a pet, and using this class need to implement the method `petTheBear()` even if we don't need this action. It is breaking the LSP and ISP principle if we leave the method empty or throws an exception, one solution is re-design it.
+But in the real world, usually a bear is not a pet, then we don't want to make a bear a pet, and using this class need to implement the method `petTheBear()` even if we don't need this action. It is breaking the LSP and ISP principle if we leave the method empty or throw an exception, one solution is re-design it.
 
 <p align="center">
     <img src="diagrams/isp-after.png" />
