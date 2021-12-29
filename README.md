@@ -471,6 +471,10 @@ Firstly, a high-level module (or class) is a class that execute actions, low-lev
 This principle completes other SOLID principles to programming focuses on interfaces, so we can implement different versions of the interface and set different behaviours according the contract.
 
 Let's see the example. We have a `PasswordReminder` that requires a connection with the database: 
+<p align="center">
+    <img src="diagrams/dip-before.png" />
+</p>
+
 ```java
 class PasswordReminder {
 
@@ -505,6 +509,10 @@ class PasswordReminder {
 In this example we are using `Dependency Injection` if we have a container to inject the instance of `MySQLConnection`, but this is not `Depency Inversion` because it is breaking the principle: `Details should depend on abstractions.`
 
 Now, let's change our `MySQLConnection` to be an interface and use abstraction, so it gives us the possibility to use other type of databases:
+<p align="center">
+    <img src="diagrams/dip-after.png" />
+</p>
+
 ```java 
 interface DatabaseConnection {
     
