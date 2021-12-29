@@ -1,5 +1,5 @@
 <p align="center">
-    <img height=85 src="images/solid-image.png">
+    <img height=85 src="images/solid-image2.png">
     <br>This repository contains examples for SOLID principles
 </p>
 
